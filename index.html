@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Tasks</title>
+  </head>
+
+  <body>
+    <div class="parent">
+      <div class="them">
+        <i class="fas fa-moon dark" data-them="dark"></i>
+        <i class="fas fa-sun light active" data-them="light"></i>
+      </div>
+      <form class="form" id="form">
+        <input type="text" name="task" placeholder="Add Task" />
+        <input type="submit" value="Add Task" />
+      </form>
+      <div class="tasks"></div>
+      <a href="#form" class="top">
+        <i class="fas fa-arrow-up top-icon"></i>
+      </a>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
