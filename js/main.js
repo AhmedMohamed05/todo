@@ -1,3 +1,4 @@
+let form = document.querySelector("form");
 let addTask = document.querySelector(`[name="task"]`);
 let submit = document.querySelector(`[type="submit"]`);
 let tasks = document.querySelector(`.tasks`);
@@ -11,7 +12,9 @@ if (data !== null) {
   tasksArr.forEach((taskObj) => createTaskelement(taskObj));
 }
 
-submit.onclick = () => {
+form.onsubmit = (event) => {
+  event.preventDefault();
+  addTask.focus();
   if (addTask.value !== "") {
     getTaskData(addTask.value);
 
@@ -31,6 +34,7 @@ function getTaskData(value) {
 
 // Error Message Function
 function errorMsg(errorMsg) {
+  addTask.blur();
   // Create Div, P, P Text, Close Button And His Text
   let div = document.createElement("div");
   let p = document.createElement("p");
@@ -54,7 +58,15 @@ function errorMsg(errorMsg) {
 
   button.onclick = () => {
     div.remove();
+    addTask.focus();
   };
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      div.remove();
+      addTask.focus();
+    }
+  });
 }
 
 // Task Class
@@ -86,6 +98,7 @@ function createTaskelement(taskObject) {
   // Creae Task Paragraph And Text
   let p = document.createElement("p");
   p.innerHTML = taskObject.name;
+  // TODO user can change content
 
   // Creae Buttons Div And Add The Class
   let buttonsDiv = document.createElement("div");
@@ -97,7 +110,7 @@ function createTaskelement(taskObject) {
 
   // Add i Tag
   doneButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
-  delbutton.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+  delbutton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
 
   // Add Classes
   doneButton.classList.add("done");
@@ -112,12 +125,15 @@ function createTaskelement(taskObject) {
   doneButton.addEventListener("click", () => {
     task.classList.toggle("done");
     if (task.classList.contains("done")) {
+      doneButton.innerHTML = `<i class="fa-solid fa-check-double"></i>`;
       taskObject.state = true;
     } else {
+      doneButton.innerHTML = `<i class="fa-solid fa-check"></i>`;
       taskObject.state = false;
     }
     setTasksInLocaleStorage();
   });
+
   delbutton.onclick = () => {
     removeTaskFromArr(taskObject.id);
     task.remove();
@@ -134,9 +150,13 @@ function createTaskelement(taskObject) {
 
   // Append Task Div To Tasks Container
   tasks.appendChild(task);
+
+  if (task.classList.contains("done")) {
+    doneButton.innerHTML = `<i class="fa-solid fa-check-double"></i>`;
+  }
 }
 
-// Push Task To TasksArr And To Local Storage
+// push Task To TasksArr And To Local Storage
 function pushTaskToArr(taskObj) {
   tasksArr.push(taskObj);
   setTasksInLocaleStorage();
@@ -194,3 +214,21 @@ function changethem(them) {
     document.body.classList.remove("dark");
   }
 }
+
+// TODO popup menu
+// let task = document.querySelectorAll(".task");
+
+// task.forEach((task) => {
+//   task.oncontextmenu = (event) => {
+//     event.preventDefault();
+//     let px = event.clientX;
+//     let py = event.clientY;
+
+//     let menu = document.createElement("div");
+
+//     menu.classList.add("pop-up");
+//     menu.style.setProperty("left", px + "px");
+//     menu.style.setProperty("top", py + "px");
+//     document.body.appendChild(menu);
+//   };
+// });
